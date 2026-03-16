@@ -1,6 +1,7 @@
 package com.uade.tpo.demo.repository;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.uade.tpo.demo.entity.Joya;
 
@@ -26,6 +27,10 @@ public class JoyasRepository {
                 .price(price).build();
         this.joyas.add(newJoya);
         return newJoya;
+    }
+
+    public Optional<Joya> getJoyaById(int id) {
+        return this.joyas.stream().filter(j -> j.getId() == id).findFirst();
     }
     
 }

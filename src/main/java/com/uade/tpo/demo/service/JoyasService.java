@@ -2,6 +2,7 @@ package com.uade.tpo.demo.service;
 
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import com.uade.tpo.demo.entity.Joya;
 import com.uade.tpo.demo.exceptions.JoyaDuplicateException;
@@ -25,5 +26,9 @@ public class JoyasService {
                 joya -> joya.getId() == newJoyaId && joya.getDescription().equals(description)))
             throw new JoyaDuplicateException();
         return joyasRepository.createJoya(newJoyaId, name, description, price);
+    }
+
+    public Optional<Joya> getJoyaById(int id) {
+        return joyasRepository.getJoyaById(id);
     }
 }

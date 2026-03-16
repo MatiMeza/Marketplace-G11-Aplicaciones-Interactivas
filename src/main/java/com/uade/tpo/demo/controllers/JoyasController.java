@@ -11,11 +11,14 @@ import com.uade.tpo.demo.service.JoyasService;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -39,6 +42,15 @@ public class JoyasController {
         Joya result = joyasService.createJoya(joyaRequest.getId(), joyaRequest.getName(), joyaRequest.getDescription(),
                 joyaRequest.getPrice());
         return ResponseEntity.created(URI.create("/joyas/" + result.getId())).body(result);
+    }
+    
+    @GetMapping("/{joyaId}")
+    public ResponseEntity<Object> getJoyaById(@PathVariable int joyaId) {
+        Optional<Joya> result = joyasService.getJoyaById(joyaId);
+        if (result.isPresent())
+            return ResponseEntity.ok(result.get());
+
+        return ResponseEntity.noContent().build();
     }
     
     
