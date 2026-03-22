@@ -1,14 +1,34 @@
 package com.uade.tpo.demo.entity;
 
-import lombok.Builder;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-@Builder
+@Entity
 public class Joya {
-    private int id;
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
+    private Long id;
+
+    @Column
     private String name;
+    @Column
     private String description;
+    @Column
     private double price;
     
+
+     public Joya() {
+    }
+
+    public Joya(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 }
