@@ -3,16 +3,33 @@ package com.uade.tpo.demo.repository;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.uade.tpo.demo.entity.Material;
 
+@Repository
 public class MaterialRepository {
+
     private ArrayList<Material> materiales;
 
     public MaterialRepository() {
-        materiales = new ArrayList<Material>();
-        materiales.add(Material.builder().id(1).name("Oro").build());
-        materiales.add(Material.builder().id(2).name("Plata").build());
-        materiales.add(Material.builder().id(3).name("Acero").build());
+        materiales = new ArrayList<>();
+
+        Material m1 = new Material();
+        m1.setId(1);
+        m1.setName("Oro");
+
+        Material m2 = new Material();
+        m2.setId(2);
+        m2.setName("Plata");
+
+        Material m3 = new Material();
+        m3.setId(3);
+        m3.setName("Acero");
+
+        materiales.add(m1);
+        materiales.add(m2);
+        materiales.add(m3);
     }
 
     public ArrayList<Material> getMateriales() {
@@ -20,16 +37,17 @@ public class MaterialRepository {
     }
 
     public Material createMaterial(int newMaterialId, String name) {
-        Material newMaterial = Material.builder()
-                .id(newMaterialId)
-                .name(name).build();
+        Material newMaterial = new Material();
+        newMaterial.setId(newMaterialId);
+        newMaterial.setName(name);
 
-        this.materiales.add(newMaterial);
+        materiales.add(newMaterial);
         return newMaterial;
     }
 
-    public Optional<Material> getMaterialById(int id) {
-        return this.materiales.stream().filter(m -> m.getId() == id).findFirst();
+    public Optional<Material> getMaterialById(int materialId) {
+        return materiales.stream()
+                .filter(m -> m.getId() == materialId)
+                .findFirst();
     }
-    
 }
