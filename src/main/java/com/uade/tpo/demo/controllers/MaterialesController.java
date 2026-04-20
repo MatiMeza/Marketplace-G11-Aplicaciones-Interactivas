@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.uade.tpo.demo.entity.Material;
 import com.uade.tpo.demo.entity.dto.MaterialRequest;
-import com.uade.tpo.demo.service.MaterialesService;
+import com.uade.tpo.demo.service.MaterialService;
+import com.uade.tpo.demo.exceptions.MaterialDuplicateException;
 
 import java.net.URI;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class MaterialesController {
 
     @Autowired
-    private MaterialesService materialService;
+    private MaterialService materialService;
 
     @GetMapping
     public ResponseEntity<List<Material>> getMateriales() {
@@ -25,8 +26,13 @@ public class MaterialesController {
 
     @PostMapping
     public ResponseEntity<Object> createMaterial(@RequestBody MaterialRequest materialRequest) {
-        Material result = materialService.createMaterial(materialRequest.getName());
-        return ResponseEntity.created(URI.create("/materiales/" + result.getId())).body(result);
+        try {
+            Material result = materialService.createMaterial(materialRequest.getName());
+            return ResponseEntity.created(URI.create("/materiales/" + result.getId())).body(result);
+        } catch (MaterialDuplicateException e) {
+            // Retorna 400 Bad Request si el material ya existe
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/{materialId}")
@@ -35,6 +41,6 @@ public class MaterialesController {
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
         }
-        return ResponseEntity.noContent().build(); 
+        return ResponseEntity.noContent().build();
     }
 }
