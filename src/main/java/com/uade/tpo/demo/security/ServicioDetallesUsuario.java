@@ -1,7 +1,7 @@
 package com.uade.tpo.demo.security;
 
 import com.uade.tpo.demo.entidades.Usuario;
-import com.uade.tpo.demo.respositorios.UsuarioRepository;
+import com.uade.tpo.demo.respositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class ServicioDetallesUsuario implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository repositorioUsuario;
+    private RepositorioUsuario repositorioUsuario;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
