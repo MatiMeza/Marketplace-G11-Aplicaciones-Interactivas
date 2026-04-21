@@ -17,8 +17,8 @@ public class Carrito {
     @Column(name = "id_carrito")
     private Long idCarrito;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "id_usuario", nullable = false, unique = true)
     private Usuario usuario;
 
     @Column(name = "fecha_creacion", nullable = false)

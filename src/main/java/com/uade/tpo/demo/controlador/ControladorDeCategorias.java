@@ -14,17 +14,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("categories")
+@RequestMapping("/categories")
 public class ControladorDeCategorias {
+
     @Autowired
     private ServicioCategoria servicioCategoria;
-
 
     @GetMapping
     public ResponseEntity<List<Categoria>> getCategories() {
@@ -34,10 +31,11 @@ public class ControladorDeCategorias {
     @GetMapping("/{categoryId}")
     public ResponseEntity<Categoria> getCategoryById(@PathVariable Long categoryId) {
         Optional<Categoria> result = servicioCategoria.getCategoryById(categoryId);
-        if (result.isPresent())
+        if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
+        }
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -47,5 +45,33 @@ public class ControladorDeCategorias {
         return ResponseEntity.created(URI.create("/categories/" + result.getId())).body(result);
     }
 
-    
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<Object> updateCategory(@PathVariable Long categoryId,
+                                                 @RequestBody SolicitudDeCategoría solicitudDeCategoría) {
+        try {
+            Optional<Categoria> categoriaActualizada = servicioCategoria.updateCategory(
+                    categoryId,
+                    solicitudDeCategoría.getDescription()
+            );
+
+            if (categoriaActualizada.isPresent()) {
+                return ResponseEntity.ok(categoriaActualizada.get());
+            }
+
+            return ResponseEntity.notFound().build();
+        } catch (ExcepcionesDuplicadasCategoria e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+        boolean eliminada = servicioCategoria.deleteCategory(categoryId);
+
+        if (eliminada) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
 }

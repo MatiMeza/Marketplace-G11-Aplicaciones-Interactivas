@@ -19,17 +19,14 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    //Relación con al menos 2 Roles (muchos a muchos) -> (ROLE_USER, ROLE_ADMIN) 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name = "usuario_rol",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_rol")
+            name = "usuario_rol",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_rol")
     )
     private List<Rol> roles;
 
-    //Relación con Carrito (uno a uno)
-    //Cada usuario tiene un carrito asignado para sus compras
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Carrito carrito;
 
