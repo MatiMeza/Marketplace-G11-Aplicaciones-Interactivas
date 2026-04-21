@@ -6,6 +6,6 @@ import com.uade.tpo.demo.entity.Producto;
 import java.util.Optional;
 
 @Repository
-public interface ProductoRepository extends JpaRepository<Producto, Integer> {
+public interface ProductoRepository extends JpaRepository<Producto, Long> {
     Optional<Producto> findByNombre(String nombre);
 }

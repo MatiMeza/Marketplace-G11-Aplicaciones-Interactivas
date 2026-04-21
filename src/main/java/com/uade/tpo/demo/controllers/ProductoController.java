@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.uade.tpo.demo.entity.Producto;
+import com.uade.tpo.demo.entity.dto.ProductoRequest;
 import com.uade.tpo.demo.service.ProductoService;
 import com.uade.tpo.demo.exceptions.ProductoDuplicateException;
 import java.net.URI;
@@ -23,9 +24,9 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createProducto(@RequestBody Producto producto) {
+    public ResponseEntity<Object> createProducto(@RequestBody ProductoRequest productoRequest) {
         try {
-            Producto result = productoService.createProducto(producto);
+            Producto result = productoService.createProducto(productoRequest);
             return ResponseEntity.created(URI.create("/productos/" + result.getId())).body(result);
         } catch (ProductoDuplicateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -33,7 +34,7 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getProductoById(@PathVariable Integer id) {
+    public ResponseEntity<Object> getProductoById(@PathVariable Long id) { // Cambiado a Long
         Optional<Producto> result = productoService.getProductoById(id);
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());

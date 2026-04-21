@@ -11,7 +11,7 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id; // Cambiado a Long para consistencia técnica
 
     @Column(nullable = false)
     private String nombre;
@@ -30,6 +30,11 @@ public class Producto {
     @JoinColumn(name = "id_categoria")
     private Category categoria;
 
+    // ESTO FALTABA: Relación con el vendedor según el DER
+    @ManyToOne
+    @JoinColumn(name = "id_vendedor")
+    private Usuario vendedor; 
+
     @ManyToMany
     @JoinTable(
         name = "producto_material",
@@ -37,4 +42,7 @@ public class Producto {
         inverseJoinColumns = @JoinColumn(name = "id_material")
     )
     private List<Material> materiales;
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Imagen> imagenes;
 }
