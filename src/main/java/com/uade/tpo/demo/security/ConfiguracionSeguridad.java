@@ -33,10 +33,13 @@ public class ConfiguracionSeguridad {
                 .authenticationProvider(proveedorAutenticacion())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+
                         .requestMatchers("/productos/**").hasRole("ADMIN")
-                        .requestMatchers("/categories/**").authenticated()
-                        .requestMatchers("/materiales/**").authenticated()
-                        .requestMatchers("/imagenes/**").authenticated()
+
+                        .requestMatchers("/categories/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/materiales/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/imagenes/**").hasAnyRole("USER", "ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(filtroJwt, UsernamePasswordAuthenticationFilter.class);
