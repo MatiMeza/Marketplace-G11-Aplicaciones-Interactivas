@@ -3,10 +3,12 @@ package com.uade.tpo.demo.controlador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import com.uade.tpo.demo.entidades.Producto;
 import com.uade.tpo.demo.entidades.dto.SolicitudDeProducto;
 import com.uade.tpo.demo.service.ServicioProducto;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasProducto;
+
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +36,38 @@ public class ControladorDeProducto {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getProductoById(@PathVariable Long id) { // Cambiado a Long
+    public ResponseEntity<Object> getProductoById(@PathVariable Long id) {
         Optional<Producto> result = servicioProducto.getProductoById(id);
         if (result.isPresent()) {
             return ResponseEntity.ok(result.get());
         }
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateProducto(@PathVariable Long id,
+                                                 @RequestBody SolicitudDeProducto solicitudDeProducto) {
+        try {
+            Optional<Producto> productoActualizado = servicioProducto.updateProducto(id, solicitudDeProducto);
+
+            if (productoActualizado.isPresent()) {
+                return ResponseEntity.ok(productoActualizado.get());
+            }
+
+            return ResponseEntity.notFound().build();
+        } catch (ExcepcionesDuplicadasProducto e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
+        boolean eliminado = servicioProducto.deleteProducto(id);
+
+        if (eliminado) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

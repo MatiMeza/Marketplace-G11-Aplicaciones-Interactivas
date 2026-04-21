@@ -7,10 +7,9 @@ import com.uade.tpo.demo.entidades.Categoria;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasCategoria;
 
 public interface ServicioCategoria {
-    public List<Categoria> getCategories();
-
-    public Optional<Categoria> getCategoryById(Long categoryId);
-
-    public Categoria createCategory(String description) throws ExcepcionesDuplicadasCategoria;
-    
+    List<Categoria> getCategories();
+    Optional<Categoria> getCategoryById(Long categoryId);
+    Categoria createCategory(String description) throws ExcepcionesDuplicadasCategoria;
+    Optional<Categoria> updateCategory(Long categoryId, String description) throws ExcepcionesDuplicadasCategoria;
+    boolean deleteCategory(Long categoryId);
 }
