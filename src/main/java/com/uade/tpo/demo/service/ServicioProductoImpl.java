@@ -10,7 +10,7 @@ import com.uade.tpo.demo.entidades.dto.SolicitudDeProducto;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasProducto;
 import com.uade.tpo.demo.respositorios.RepositorioProducto;
 import com.uade.tpo.demo.respositorios.RepositorioCategoria;
-import com.uade.tpo.demo.respositorios.UsuarioRepository;
+import com.uade.tpo.demo.respositorios.RepositorioUsuario;
 
 @Service
 public class ServicioProductoImpl implements ServicioProducto {
@@ -22,7 +22,7 @@ public class ServicioProductoImpl implements ServicioProducto {
     private RepositorioCategoria repositorioCategoria;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private RepositorioUsuario repositorioUsuario;
 
     @Override
     public List<Producto> getProductos() {
@@ -51,7 +51,7 @@ public class ServicioProductoImpl implements ServicioProducto {
         repositorioCategoria.findById(req.getIdCategoria())
             .ifPresent(nuevo::setCategoria);
 
-        usuarioRepository.findById(req.getIdVendedor())
+        repositorioUsuario.findById(req.getIdVendedor())
             .ifPresent(nuevo::setVendedor);
 
         return repositorioProducto.save(nuevo);
