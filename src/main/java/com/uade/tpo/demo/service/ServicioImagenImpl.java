@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.uade.tpo.demo.entidades.Imagen;
 import com.uade.tpo.demo.respositorios.RepositorioImagen;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioImagenImpl implements ServicioImagen {
@@ -25,5 +26,26 @@ public class ServicioImagenImpl implements ServicioImagen {
     @Override
     public void deleteImagen(int id) {
         repositorioImagen.deleteById(id);
+    }
+
+    @Override
+    public Optional<Imagen> getImagenById(Integer id) {
+        return repositorioImagen.findById(id);
+    }
+
+    @Override
+    public Optional<Imagen> updateImagen(Integer id, Imagen imagen) {
+        Optional<Imagen> imagenExistente = repositorioImagen.findById(id);
+
+        if (imagenExistente.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Imagen actualizada = imagenExistente.get();
+        actualizada.setUrl(imagen.getUrl());
+        actualizada.setEsPrincipal(imagen.isEsPrincipal());
+        actualizada.setProducto(imagen.getProducto());
+
+        return Optional.of(repositorioImagen.save(actualizada));
     }
 }

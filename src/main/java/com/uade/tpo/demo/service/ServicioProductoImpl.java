@@ -49,16 +49,16 @@ public class ServicioProductoImpl implements ServicioProducto {
         nuevo.setStock(req.getStock());
         nuevo.setTipo(req.getTipo());
 
-//<<<<<<< HEAD
+
         repositorioCategoria.findById(req.getIdCategoria())
             .ifPresent(nuevo::setCategoria);
 
         repositorioUsuario.findById(req.getIdVendedor())
             .ifPresent(nuevo::setVendedor);
-//=======
+
         repositorioCategoria.findById(req.getIdCategoria()).ifPresent(nuevo::setCategoria);
         repositorioUsuario.findById(req.getIdVendedor()).ifPresent(nuevo::setVendedor);
-//>>>>>>> 8bba449ede1b98c3db5d682c1d1df37d1f878589
+
 
         return repositorioProducto.save(nuevo);
     }

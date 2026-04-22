@@ -1,0 +1,283 @@
+{
+  "info": {
+    "_postman_id": "ce44448a-4c3b-42c2-ae66-778661250be5",
+    "name": "Marketplace-G11",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54209588",
+    "_collection_link": "https://go.postman.co/collection/54209588-ce44448a-4c3b-42c2-ae66-778661250be5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Login Admin",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"admin@gmail.com\",\r\n  \"password\": \"1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4002/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET materiales con token",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTc3NjgyNDcxNSwiZXhwIjoxNzc2OTExMTE1fQ.hpNhytBowOZ-ur68lYyfAPfJ71FGbOuz0zYk2nRiyNI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4002/materiales",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "materiales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST crear material",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NzY4MjI5MTgsImV4cCI6MTc3NjkwOTMxOH0.tm-u5xxyY3Oj-VlEAuLErGUrZzoo-Npc6JoWKe36EDk",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Bronce\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4002/materiales",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "materiales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET materiales sin token",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4002/materiales",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "materiales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login User",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"user@gmail.com\",\r\n  \"password\": \"1234\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4002/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST materiales (CON USER)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTc3NjgyNDcxNSwiZXhwIjoxNzc2OTExMTE1fQ.hpNhytBowOZ-ur68lYyfAPfJ71FGbOuz0zYk2nRiyNI",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Prueba USER\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4002/materiales",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "materiales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET materiales (CON USER)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTc3NjgyNTMxNiwiZXhwIjoxNzc2OTExNzE2fQ.ldIMCsioDO_BDC3eN-6Jf5_dSBB9kXeEKJnyHdbfWcs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4002/materiales",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "materiales"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET productos (CON USER)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTc3NjgyNTMxNiwiZXhwIjoxNzc2OTExNzE2fQ.ldIMCsioDO_BDC3eN-6Jf5_dSBB9kXeEKJnyHdbfWcs",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4002/productos",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "productos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET categories",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTc3NjgyNzMxMiwiZXhwIjoxNzc2OTEzNzEyfQ.m6NkrRFp1MNpfBKtUyaIHPvwHUhtMdHMnqBF-v632H4",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4002/categories",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4002",
+          "path": [
+            "categories"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

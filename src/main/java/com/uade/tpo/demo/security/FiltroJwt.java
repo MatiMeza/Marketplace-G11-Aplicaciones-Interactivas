@@ -28,6 +28,13 @@ public class FiltroJwt extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        String ruta = request.getServletPath();
+
+        if (ruta.startsWith("/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String encabezadoAutorizacion = request.getHeader("Authorization");
         String token = null;
         String email = null;
