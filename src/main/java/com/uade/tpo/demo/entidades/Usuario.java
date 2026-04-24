@@ -3,6 +3,7 @@ package com.uade.tpo.demo.entidades;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @Entity
@@ -27,6 +28,7 @@ public class Usuario {
     )
     private List<Rol> roles;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Carrito carrito;
 
