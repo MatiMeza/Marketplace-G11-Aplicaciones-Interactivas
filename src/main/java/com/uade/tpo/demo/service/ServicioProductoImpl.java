@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import com.uade.tpo.demo.entidades.Producto;
 import com.uade.tpo.demo.entidades.dto.SolicitudDeProducto;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasProducto;
-import com.uade.tpo.demo.respositorios.RepositorioProducto;
-import com.uade.tpo.demo.respositorios.RepositorioCategoria;
-import com.uade.tpo.demo.respositorios.RepositorioUsuario;
+import com.uade.tpo.demo.repositorios.RepositorioProducto;
+import com.uade.tpo.demo.repositorios.RepositorioCategoria;
+import com.uade.tpo.demo.repositorios.RepositorioUsuario;
 
 @Service
 public class ServicioProductoImpl implements ServicioProducto {

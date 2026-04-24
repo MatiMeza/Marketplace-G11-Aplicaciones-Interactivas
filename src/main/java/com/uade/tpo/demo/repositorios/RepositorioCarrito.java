@@ -1,4 +1,4 @@
-package com.uade.tpo.demo.respositorios;
+package com.uade.tpo.demo.repositorios;
 
 import com.uade.tpo.demo.entidades.Carrito;
 import org.springframework.data.jpa.repository.JpaRepository;

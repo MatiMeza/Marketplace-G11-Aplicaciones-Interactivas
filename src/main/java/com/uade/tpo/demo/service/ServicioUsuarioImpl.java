@@ -1,7 +1,7 @@
 package com.uade.tpo.demo.service;
 
 import com.uade.tpo.demo.entidades.Usuario;
-import com.uade.tpo.demo.respositorios.RepositorioUsuario;
+import com.uade.tpo.demo.repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

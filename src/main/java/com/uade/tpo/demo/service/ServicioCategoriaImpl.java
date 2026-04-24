@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.uade.tpo.demo.entidades.Categoria;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasCategoria;
-import com.uade.tpo.demo.respositorios.RepositorioCategoria;
+import com.uade.tpo.demo.repositorios.RepositorioCategoria;
 
 @Service
 public class ServicioCategoriaImpl implements ServicioCategoria {
