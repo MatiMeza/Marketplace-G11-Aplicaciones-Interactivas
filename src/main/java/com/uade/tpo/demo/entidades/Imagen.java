@@ -13,7 +13,7 @@ public class Imagen {
     private int id;
 
     @Column(nullable = false)
-    private String url; //url de la imagen
+    private String url;
 
     @Column(name = "es_portada", nullable = false)
     private boolean esPrincipal;
