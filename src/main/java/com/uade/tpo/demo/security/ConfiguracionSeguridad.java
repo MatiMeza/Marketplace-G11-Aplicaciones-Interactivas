@@ -41,6 +41,8 @@ public class ConfiguracionSeguridad {
                         .requestMatchers(HttpMethod.PUT, "/materiales/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/materiales/**").hasRole("ADMIN")
 
+                        .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
+
                         .requestMatchers("/categories/**").authenticated()
                         .requestMatchers("/imagenes/**").authenticated()
 
