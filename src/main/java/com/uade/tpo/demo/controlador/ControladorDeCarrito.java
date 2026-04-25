@@ -1,5 +1,10 @@
 package com.uade.tpo.demo.controlador;
 
+import com.uade.tpo.demo.entidades.DetalleCarrito;
+import com.uade.tpo.demo.entidades.dto.ItemCarrito;
+import com.uade.tpo.demo.entidades.dto.RespuestaCarrito;
+import java.util.List;
+import java.util.stream.Collectors;
 import com.uade.tpo.demo.entidades.Carrito;
 import com.uade.tpo.demo.entidades.dto.SolicitudAgregarCarrito;
 import com.uade.tpo.demo.service.ServicioCarrito;
@@ -16,25 +21,46 @@ public class ControladorDeCarrito {
     private ServicioCarrito servicioCarrito;
 
     @GetMapping
-    public ResponseEntity<Carrito> obtenerCarrito(Authentication authentication) {
+    public ResponseEntity<RespuestaCarrito> obtenerCarrito(Authentication authentication) {
         String email = authentication.getName();
-        return ResponseEntity.ok(servicioCarrito.obtenerCarrito(email));
+
+        Carrito carrito = servicioCarrito.obtenerCarrito(email);
+
+        List<ItemCarrito> productos = carrito.getDetalles()
+                .stream()
+                .map(detalle -> new ItemCarrito(
+                        detalle.getProducto().getId(),
+                        detalle.getProducto().getNombre(),
+                        detalle.getProducto().getPrecio(),
+                        detalle.getCantidad(),
+                        detalle.calcularSubtotal()
+                ))
+                .collect(Collectors.toList());
+
+        RespuestaCarrito respuesta = new RespuestaCarrito(
+                carrito.getIdCarrito(),
+                email,
+                productos,
+                carrito.calcularTotal()
+        );
+
+        return ResponseEntity.ok(respuesta);
     }
 
     @PostMapping("/agregar")
-    public ResponseEntity<Carrito> agregarProducto(
+    public ResponseEntity<String> agregarProducto(
             Authentication authentication,
             @RequestBody SolicitudAgregarCarrito solicitud
     ) {
         String email = authentication.getName();
 
-        Carrito carrito = servicioCarrito.agregarProducto(
+        servicioCarrito.agregarProducto(
                 email,
                 solicitud.getProductoId(),
                 solicitud.getCantidad()
         );
 
-        return ResponseEntity.ok(carrito);
+        return ResponseEntity.ok("Producto agregado al carrito correctamente");
     }
 
     @DeleteMapping("/vaciar")

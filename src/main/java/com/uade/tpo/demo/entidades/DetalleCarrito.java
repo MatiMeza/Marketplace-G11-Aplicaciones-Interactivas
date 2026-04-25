@@ -2,6 +2,7 @@ package com.uade.tpo.demo.entidades;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @Entity
@@ -16,6 +17,7 @@ public class DetalleCarrito {
     @JoinColumn(name = "id_carrito", nullable = false)
     private Carrito carrito;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_producto", nullable = false)
     private Producto producto;
