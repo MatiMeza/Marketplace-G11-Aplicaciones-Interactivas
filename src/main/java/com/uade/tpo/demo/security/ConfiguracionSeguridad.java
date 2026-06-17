@@ -14,6 +14,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -28,29 +32,45 @@ public class ConfiguracionSeguridad {
     @Bean
     public SecurityFilterChain cadenaDeFiltros(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sesion -> sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(proveedorAutenticacion())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
 
-                        .requestMatchers("/productos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/productos/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/productos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/productos/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/productos/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/materiales/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/materiales/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/materiales/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/materiales/**").hasRole("ADMIN")
 
+                        .requestMatchers(HttpMethod.GET, "/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+
                         .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
-
-                        .requestMatchers("/categories/**").authenticated()
+                        .requestMatchers("/categorias/**").authenticated()
                         .requestMatchers("/imagenes/**").authenticated()
-
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(filtroJwt, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
     @Bean
