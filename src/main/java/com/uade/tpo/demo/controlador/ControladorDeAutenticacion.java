@@ -42,8 +42,26 @@ public class ControladorDeAutenticacion {
                             solicitud.getPassword()
                     )
             );
+
+            Usuario usuario = repositorioUsuario.findByEmail(solicitud.getEmail())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
             String token = jwtUtil.generarToken(solicitud.getEmail());
-            return ResponseEntity.ok(new RespuestaLogin(token));
+            String rol = usuario.getRoles().stream()
+                    .map(r -> r.getNombre())
+                    .findFirst()
+                    .orElse("ROLE_USER");
+
+            return ResponseEntity.ok(new RespuestaLogin(
+                    token,
+                    usuario.getId(),
+                    usuario.getEmail(),
+                    usuario.getNombre() != null ? usuario.getNombre() : usuario.getEmail().split("@")[0],
+                    usuario.getTelefono(),
+                    usuario.getDireccion(),
+                    rol
+            ));
+
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Email o contraseña incorrectos");
@@ -66,12 +84,22 @@ public class ControladorDeAutenticacion {
             Usuario nuevo = new Usuario();
             nuevo.setEmail(solicitud.getEmail());
             nuevo.setPassword(solicitud.getPassword());
+            nuevo.setNombre(solicitud.getNombre() != null ? solicitud.getNombre() : solicitud.getEmail().split("@")[0]);
+            nuevo.setTelefono(solicitud.getTelefono());
             nuevo.setRoles(List.of(rolUser));
 
             repositorioUsuario.save(nuevo);
 
             String token = jwtUtil.generarToken(solicitud.getEmail());
-            return ResponseEntity.ok(new RespuestaLogin(token));
+            return ResponseEntity.ok(new RespuestaLogin(
+                    token,
+                    nuevo.getId(),
+                    nuevo.getEmail(),
+                    nuevo.getNombre(),
+                    nuevo.getTelefono(),
+                    nuevo.getDireccion(),
+                    "ROLE_USER"
+            ));
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

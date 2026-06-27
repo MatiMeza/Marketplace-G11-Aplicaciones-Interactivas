@@ -9,6 +9,6 @@ public class SolicitudDeProducto {
     private double precio;
     private int stock;
     private String tipo;
-    private Long idCategoria; 
+    private Long idCategoria;
     private Long idVendedor;
 }

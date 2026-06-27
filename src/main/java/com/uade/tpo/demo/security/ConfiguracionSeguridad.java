@@ -39,18 +39,30 @@ public class ConfiguracionSeguridad {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
 
+                        // Productos
+                        .requestMatchers(HttpMethod.PUT, "/productos/*/stock").authenticated()
                         .requestMatchers(HttpMethod.GET, "/productos/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/productos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/productos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/productos/**").hasRole("ADMIN")
 
+                        // Pedidos — usuario puede ver sus pedidos y crear, admin ve todos
+                        .requestMatchers(HttpMethod.GET, "/pedidos/mis-pedidos").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/pedidos").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/pedidos/*/estado").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/pedidos").hasRole("ADMIN")
+
+                        // Usuarios — perfil propio accesible por USER y ADMIN
+                        .requestMatchers(HttpMethod.GET, "/usuarios/perfil").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/usuarios/perfil").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
+
+                        // Materiales
                         .requestMatchers(HttpMethod.GET, "/materiales/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/materiales/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/materiales/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/materiales/**").hasRole("ADMIN")
-
-                        .requestMatchers(HttpMethod.GET, "/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/usuarios/**").hasRole("ADMIN")
 
                         .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/categorias/**").authenticated()
@@ -65,7 +77,7 @@ public class ConfiguracionSeguridad {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

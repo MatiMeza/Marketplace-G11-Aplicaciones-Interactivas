@@ -68,4 +68,12 @@ public class ControladorDeCarrito {
         String email = authentication.getName();
         return ResponseEntity.ok(servicioCarrito.vaciarCarrito(email));
     }
+
+    // NUEVO: confirmar compra — descuenta stock y vacía carrito
+    @PostMapping("/confirmar")
+    public ResponseEntity<String> confirmarCompra(Authentication authentication) {
+        String email = authentication.getName();
+        servicioCarrito.confirmarCompra(email);
+        return ResponseEntity.ok("Compra confirmada. Stock actualizado y carrito vaciado.");
+    }
 }

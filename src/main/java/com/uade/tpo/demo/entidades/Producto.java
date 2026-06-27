@@ -41,17 +41,17 @@ public class Producto {
 
     @ManyToMany
     @JoinTable(
-        name = "producto_material",
-        joinColumns = @JoinColumn(name = "id_producto"),
-        inverseJoinColumns = @JoinColumn(name = "id_material")
+            name = "producto_material",
+            joinColumns = @JoinColumn(name = "id_producto"),
+            inverseJoinColumns = @JoinColumn(name = "id_material")
     )
     private List<Material> materiales;
 
     @ManyToMany
     @JoinTable(
-        name = "producto_descuento",
-        joinColumns = @JoinColumn(name = "id_producto"),
-        inverseJoinColumns = @JoinColumn(name = "id_descuento")
+            name = "producto_descuento",
+            joinColumns = @JoinColumn(name = "id_producto"),
+            inverseJoinColumns = @JoinColumn(name = "id_descuento")
     )
     private List<Descuento> descuentos;
 

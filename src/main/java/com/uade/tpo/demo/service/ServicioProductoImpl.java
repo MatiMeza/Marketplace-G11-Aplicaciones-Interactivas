@@ -1,17 +1,16 @@
 package com.uade.tpo.demo.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.uade.tpo.demo.entidades.Producto;
 import com.uade.tpo.demo.entidades.dto.SolicitudDeProducto;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasProducto;
-import com.uade.tpo.demo.repositorios.RepositorioProducto;
 import com.uade.tpo.demo.repositorios.RepositorioCategoria;
+import com.uade.tpo.demo.repositorios.RepositorioProducto;
 import com.uade.tpo.demo.repositorios.RepositorioUsuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServicioProductoImpl implements ServicioProducto {
@@ -49,16 +48,12 @@ public class ServicioProductoImpl implements ServicioProducto {
         nuevo.setStock(req.getStock());
         nuevo.setTipo(req.getTipo());
 
-
-        repositorioCategoria.findById(req.getIdCategoria())
-            .ifPresent(nuevo::setCategoria);
-
-        repositorioUsuario.findById(req.getIdVendedor())
-            .ifPresent(nuevo::setVendedor);
-
-        repositorioCategoria.findById(req.getIdCategoria()).ifPresent(nuevo::setCategoria);
-        repositorioUsuario.findById(req.getIdVendedor()).ifPresent(nuevo::setVendedor);
-
+        if (req.getIdCategoria() != null) {
+            repositorioCategoria.findById(req.getIdCategoria()).ifPresent(nuevo::setCategoria);
+        }
+        if (req.getIdVendedor() != null) {
+            repositorioUsuario.findById(req.getIdVendedor()).ifPresent(nuevo::setVendedor);
+        }
 
         return repositorioProducto.save(nuevo);
     }
@@ -83,8 +78,13 @@ public class ServicioProductoImpl implements ServicioProducto {
         productoExistente.setStock(req.getStock());
         productoExistente.setTipo(req.getTipo());
 
-        repositorioCategoria.findById(req.getIdCategoria()).ifPresent(productoExistente::setCategoria);
-        repositorioUsuario.findById(req.getIdVendedor()).ifPresent(productoExistente::setVendedor);
+        // Solo actualiza categoria y vendedor si vienen en el request
+        if (req.getIdCategoria() != null) {
+            repositorioCategoria.findById(req.getIdCategoria()).ifPresent(productoExistente::setCategoria);
+        }
+        if (req.getIdVendedor() != null) {
+            repositorioUsuario.findById(req.getIdVendedor()).ifPresent(productoExistente::setVendedor);
+        }
 
         return Optional.of(repositorioProducto.save(productoExistente));
     }
