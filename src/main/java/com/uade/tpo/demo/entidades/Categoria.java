@@ -13,12 +13,17 @@ public class Categoria {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private String description;
+    private String nombre; 
 
-    public Categoria() {
-    }
+    @Column(unique = true)
+    private String slug;
 
-    public Categoria(String description) {
-        this.description = description;
-    }
+    @Column(length = 500)
+    private String descripcion;
+
+    @Column(nullable = false)
+    private boolean publicado = true;
+
+
+    public Categoria() {}
 }
