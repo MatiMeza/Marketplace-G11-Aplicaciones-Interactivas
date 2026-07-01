@@ -1,10 +1,12 @@
 package com.uade.tpo.demo.service;
 
 import com.uade.tpo.demo.entidades.Categoria;
+import com.uade.tpo.demo.entidades.dto.SolicitudDeCategoría;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasCategoria;
 import com.uade.tpo.demo.repositorios.RepositorioCategoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -26,29 +28,41 @@ public class ServicioCategoriaImpl implements ServicioCategoria {
     }
 
     @Override
-    public Categoria createCategory(String description) throws ExcepcionesDuplicadasCategoria {
-        if (repositorioCategoria.findByDescription(description).isPresent()) {
+    public Categoria createCategory(SolicitudDeCategoría solicitud) throws ExcepcionesDuplicadasCategoria {
+        if (repositorioCategoria.findByNombre(solicitud.getNombre()).isPresent()) {
             throw new ExcepcionesDuplicadasCategoria();
         }
+        Categoria nuevaCategoria = new Categoria();
 
-        return repositorioCategoria.save(new Categoria(description));
+        
+        nuevaCategoria.setNombre(solicitud.getNombre());
+        nuevaCategoria.setSlug(solicitud.getSlug());
+        nuevaCategoria.setDescripcion(solicitud.getDescripcion());
+        nuevaCategoria.setPublicado(solicitud.isPublicado());
+
+        return repositorioCategoria.save(nuevaCategoria);
     }
 
     @Override
-    public Optional<Categoria> updateCategory(Long categoryId, String description) throws ExcepcionesDuplicadasCategoria {
-        Optional<Categoria> categoriaOptional = repositorioCategoria.findById(categoryId);
+    public Optional<Categoria> updateCategory(SolicitudDeCategoría solicitud) throws ExcepcionesDuplicadasCategoria {
+        Optional<Categoria> categoriaOptional = repositorioCategoria.findById(solicitud.getId());
 
         if (categoriaOptional.isEmpty()) {
             return Optional.empty();
         }
 
-        Optional<Categoria> categoriaConMismaDescripcion = repositorioCategoria.findByDescription(description);
-        if (categoriaConMismaDescripcion.isPresent() && categoriaConMismaDescripcion.get().getId() != categoryId) {
+        Optional<Categoria> categoriaConMismoNombre = repositorioCategoria.findByNombre(solicitud.getNombre());
+        if (categoriaConMismoNombre.isPresent() && categoriaConMismoNombre.get().getId() != solicitud.getId()) {
             throw new ExcepcionesDuplicadasCategoria();
         }
 
         Categoria categoriaExistente = categoriaOptional.get();
-        categoriaExistente.setDescription(description);
+        
+        categoriaExistente.setNombre(solicitud.getNombre());
+        categoriaExistente.setSlug(solicitud.getSlug());
+        categoriaExistente.setDescripcion(solicitud.getDescripcion());
+        categoriaExistente.setPublicado(solicitud.isPublicado());
+
 
         return Optional.of(repositorioCategoria.save(categoriaExistente));
     }

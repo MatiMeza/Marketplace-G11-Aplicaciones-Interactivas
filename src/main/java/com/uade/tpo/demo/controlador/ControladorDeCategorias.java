@@ -41,7 +41,7 @@ public class ControladorDeCategorias {
     @PostMapping
     public ResponseEntity<Object> createCategory(@RequestBody SolicitudDeCategoría solicitudDeCategoría)
             throws ExcepcionesDuplicadasCategoria {
-        Categoria result = servicioCategoria.createCategory(solicitudDeCategoría.getDescription());
+        Categoria result = servicioCategoria.createCategory(solicitudDeCategoría.getDescripcion());
         return ResponseEntity.created(URI.create("/categories/" + result.getId())).body(result);
     }
 
@@ -51,7 +51,7 @@ public class ControladorDeCategorias {
         try {
             Optional<Categoria> categoriaActualizada = servicioCategoria.updateCategory(
                     categoryId,
-                    solicitudDeCategoría.getDescription()
+                    solicitudDeCategoría.getDescripcion()
             );
 
             if (categoriaActualizada.isPresent()) {
