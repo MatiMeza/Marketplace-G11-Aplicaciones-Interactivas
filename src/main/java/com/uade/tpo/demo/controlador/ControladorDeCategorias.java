@@ -1,8 +1,5 @@
 package com.uade.tpo.demo.controlador;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.uade.tpo.demo.entidades.Categoria;
 import com.uade.tpo.demo.entidades.dto.SolicitudDeCategoría;
 import com.uade.tpo.demo.excepciones.ExcepcionesDuplicadasCategoria;
@@ -41,7 +38,7 @@ public class ControladorDeCategorias {
     @PostMapping
     public ResponseEntity<Object> createCategory(@RequestBody SolicitudDeCategoría solicitudDeCategoría)
             throws ExcepcionesDuplicadasCategoria {
-        Categoria result = servicioCategoria.createCategory(solicitudDeCategoría.getDescripcion());
+        Categoria result = servicioCategoria.createCategory(solicitudDeCategoría);
         return ResponseEntity.created(URI.create("/categories/" + result.getId())).body(result);
     }
 
@@ -49,10 +46,9 @@ public class ControladorDeCategorias {
     public ResponseEntity<Object> updateCategory(@PathVariable Long categoryId,
                                                  @RequestBody SolicitudDeCategoría solicitudDeCategoría) {
         try {
-            Optional<Categoria> categoriaActualizada = servicioCategoria.updateCategory(
-                    categoryId,
-                    solicitudDeCategoría.getDescripcion()
-            );
+            solicitudDeCategoría.setId(categoryId);
+
+            Optional<Categoria> categoriaActualizada = servicioCategoria.updateCategory(solicitudDeCategoría);
 
             if (categoriaActualizada.isPresent()) {
                 return ResponseEntity.ok(categoriaActualizada.get());
