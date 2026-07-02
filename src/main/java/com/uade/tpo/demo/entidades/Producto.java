@@ -30,7 +30,11 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
-    private Categoria categoria;
+    private Categoria categoria; //Joyeria lingotes etc
+
+    @Column(name = "subcategoria")
+    private String subcategoria; // Aros anillos etc
+
 
     @ManyToOne
     @JoinColumn(name = "id_vendedor")

@@ -69,6 +69,7 @@ public class ControladorDeProducto {
         req.setTipo(producto.getTipo());
         req.setIdCategoria(producto.getCategoria() != null ? producto.getCategoria().getId() : null);
         req.setIdVendedor(producto.getVendedor() != null ? producto.getVendedor().getId() : null);
+        req.setSubcategoria(producto.getSubcategoria());
 
         try {
             Optional<Producto> actualizado = servicioProducto.updateProducto(id, req);

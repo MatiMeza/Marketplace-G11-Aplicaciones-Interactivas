@@ -11,4 +11,5 @@ public class SolicitudDeProducto {
     private String tipo;
     private Long idCategoria;
     private Long idVendedor;
+    private String subcategoria;
 }
