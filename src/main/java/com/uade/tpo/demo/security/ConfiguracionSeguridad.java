@@ -41,7 +41,7 @@ public class ConfiguracionSeguridad {
 
                         // Productos
                         .requestMatchers(HttpMethod.PUT, "/productos/*/stock").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/productos/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/productos/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/productos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/productos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/productos/**").hasRole("ADMIN")
