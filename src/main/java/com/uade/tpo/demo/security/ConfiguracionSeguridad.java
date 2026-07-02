@@ -65,8 +65,22 @@ public class ConfiguracionSeguridad {
                         .requestMatchers(HttpMethod.DELETE, "/materiales/**").hasRole("ADMIN")
 
                         .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/categories/**").authenticated()
-                        .requestMatchers("/imagenes/**").authenticated()
+
+                        .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/categories/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/categories/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/categories/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/imagenes/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/imagenes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/imagenes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/imagenes/**").hasRole("ADMIN")
+
+                        .requestMatchers(HttpMethod.GET, "/cupones/validar/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/cupones/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/cupones/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/cupones/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(filtroJwt, UsernamePasswordAuthenticationFilter.class);
