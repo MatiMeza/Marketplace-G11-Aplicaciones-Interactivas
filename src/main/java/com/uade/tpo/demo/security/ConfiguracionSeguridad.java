@@ -65,7 +65,7 @@ public class ConfiguracionSeguridad {
                         .requestMatchers(HttpMethod.DELETE, "/materiales/**").hasRole("ADMIN")
 
                         .requestMatchers("/carrito/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/categorias/**").authenticated()
+                        .requestMatchers("/categories/**").authenticated()
                         .requestMatchers("/imagenes/**").authenticated()
                         .anyRequest().authenticated()
                 )

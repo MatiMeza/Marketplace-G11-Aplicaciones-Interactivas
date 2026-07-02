@@ -1,5 +1,6 @@
 package com.uade.tpo.demo.entidades;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +12,7 @@ public class Material {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonProperty("nombre")
     @Column(nullable = false, unique = true)
     private String name;
 
