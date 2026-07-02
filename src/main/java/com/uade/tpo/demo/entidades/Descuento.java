@@ -1,5 +1,6 @@
 package com.uade.tpo.demo.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Descuento {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "descuentos")
     private List<Producto> productos;
 }

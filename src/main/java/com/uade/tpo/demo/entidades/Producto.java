@@ -16,7 +16,7 @@ public class Producto {
     @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String descripcion;
 
     @Column(nullable = false)
@@ -35,6 +35,24 @@ public class Producto {
     @Column(name = "subcategoria")
     private String subcategoria; // Aros anillos etc
 
+    // --- Campos de contenido para la ficha de detalle (antes vivían solo en el mock del front) ---
+    @Column
+    private String badge; // ej: "EXCLUSIVIDAD" — null si no tiene
+
+    @Column
+    private String peso; // texto libre, ej: "12 gramos"
+
+    @Column
+    private String certificacion; // ej: "Autenticado por GIA"
+
+    @Column(name = "composicion_material", columnDefinition = "TEXT")
+    private String composicionMaterial; // descripción larga del material (distinta del Material de filtrado)
+
+    @Column(columnDefinition = "TEXT")
+    private String esencia; // texto largo de "La Esencia de la Elegancia"
+
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    private List<Caracteristica> caracteristicas;
 
     @ManyToOne
     @JoinColumn(name = "id_vendedor")

@@ -6,21 +6,24 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "imagenes")
-public class Imagen {
+@Table(name = "caracteristicas")
+public class Caracteristica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
-    private String url;
+    private String titulo;
 
-    @Column(name = "es_portada", nullable = false)
-    private boolean esPrincipal;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String texto;
 
+    // @JsonIgnore corta el ciclo con Producto, igual que en Imagen.java
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_producto", nullable = false)
     private Producto producto;
+
+    public Caracteristica() {}
 }
