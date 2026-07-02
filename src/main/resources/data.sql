@@ -1,28 +1,28 @@
 
 ------ 1. ROLES ------
 
-INSERT INTO roles (nombre) VALUES ('ROLE_VENDEDOR');
-INSERT INTO roles (nombre) VALUES ('ROLE_COMPRADOR');
+INSERT INTO roles (nombre) VALUES ('ROLE_USER');
+INSERT INTO roles (nombre) VALUES ('ROLE_ADMIN');
 
 
 ------ 2. USUARIOS (VENDEDORES) ------
 
 INSERT INTO usuarios (email, password, nombre, direccion, telefono)
-VALUES ('vendedor1@marketplace.com', '123456', 'Joyería Central', 'Av. Corrientes 1234', '1122334455');
+VALUES ('user@marketplace.com', '123456', 'Joyería Central', 'Av. Corrientes 1234', '1122334455');
 
 INSERT INTO usuarios (email, password, nombre, direccion, telefono)
-VALUES ('vendedor2@marketplace.com', '123456', 'Platería Moderna', 'Calle Florida 567', '1199887766');
+VALUES ('admin@marketplace.com', '123456', 'Platería Moderna', 'Calle Florida 567', '1199887766');
 
 
 ------ 3. ASIGNACIÓN DE ROLES (Tabla Intermedia) ------
 
 INSERT INTO usuario_rol (id_usuario, id_rol)
-SELECT (SELECT id FROM usuarios WHERE email = 'vendedor1@marketplace.com'),
-       (SELECT id FROM roles WHERE nombre = 'ROLE_VENDEDOR');
+SELECT (SELECT id FROM usuarios WHERE email = 'user@marketplace.com'),
+       (SELECT id FROM roles WHERE nombre = 'ROLE_USER');
 
 INSERT INTO usuario_rol (id_usuario, id_rol)
-SELECT (SELECT id FROM usuarios WHERE email = 'vendedor2@marketplace.com'),
-       (SELECT id FROM roles WHERE nombre = 'ROLE_VENDEDOR');
+SELECT (SELECT id FROM usuarios WHERE email = 'admin@marketplace.com'),
+       (SELECT id FROM roles WHERE nombre = 'ROLE_ADMIN');
 
 
 ------ 4. CATEGORÍAS ------
