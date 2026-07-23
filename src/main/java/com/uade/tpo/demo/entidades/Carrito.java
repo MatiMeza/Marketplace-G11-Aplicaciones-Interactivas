@@ -28,6 +28,12 @@ public class Carrito {
     private List<DetalleCarrito> detalles = new ArrayList<>();
 
     public void agregarProducto(Producto producto, int cantidad) {
+        for (DetalleCarrito detalle : detalles) {
+            if (detalle.getProducto().getId().equals(producto.getId())) {
+                detalle.setCantidad(detalle.getCantidad() + cantidad);
+                return;
+            }
+        }
         DetalleCarrito detalle = new DetalleCarrito();
         detalle.setCarrito(this);
         detalle.setProducto(producto);
@@ -35,8 +41,27 @@ public class Carrito {
         detalles.add(detalle);
     }
 
+    // Fija la cantidad exacta de un producto ya existente en el carrito
+    // (a diferencia de agregarProducto, que suma sobre la cantidad actual).
+    public void actualizarCantidad(Long productoId, int cantidad) {
+        if (cantidad <= 0) {
+            detalles.removeIf(detalle -> detalle.getProducto().getId().equals(productoId));
+            return;
+        }
+        for (DetalleCarrito detalle : detalles) {
+            if (detalle.getProducto().getId().equals(productoId)) {
+                detalle.setCantidad(cantidad);
+                return;
+            }
+        }
+    }
+
     public void eliminarProducto(Producto producto) {
         detalles.removeIf(detalle -> detalle.getProducto().getId().equals(producto.getId()));
+    }
+
+    public void eliminarProductoPorId(Long productoId) {
+        detalles.removeIf(detalle -> detalle.getProducto().getId().equals(productoId));
     }
 
     public void vaciarCarrito() {

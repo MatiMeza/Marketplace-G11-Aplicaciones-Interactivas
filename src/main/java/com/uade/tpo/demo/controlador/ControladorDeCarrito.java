@@ -63,6 +63,31 @@ public class ControladorDeCarrito {
         return ResponseEntity.ok("Producto agregado al carrito correctamente");
     }
 
+    // Fija la cantidad exacta de un producto en el carrito (igual que el
+    // patron usado en /productos/{id}/stock: se manda el valor final, no un delta).
+    @PutMapping("/item/{productoId}")
+    public ResponseEntity<Object> actualizarCantidad(
+            Authentication authentication,
+            @PathVariable Long productoId,
+            @RequestBody java.util.Map<String, Integer> body
+    ) {
+        Integer cantidad = body.get("cantidad");
+        if (cantidad == null) {
+            return ResponseEntity.badRequest().body("Cantidad invalida");
+        }
+        String email = authentication.getName();
+        return ResponseEntity.ok(servicioCarrito.actualizarCantidadProducto(email, productoId, cantidad));
+    }
+
+    @DeleteMapping("/item/{productoId}")
+    public ResponseEntity<Carrito> eliminarProducto(
+            Authentication authentication,
+            @PathVariable Long productoId
+    ) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(servicioCarrito.eliminarProducto(email, productoId));
+    }
+
     @DeleteMapping("/vaciar")
     public ResponseEntity<Carrito> vaciarCarrito(Authentication authentication) {
         String email = authentication.getName();

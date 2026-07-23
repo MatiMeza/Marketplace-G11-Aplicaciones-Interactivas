@@ -44,6 +44,20 @@ public class ServicioCarritoImpl implements ServicioCarrito {
     }
 
     @Override
+    public Carrito actualizarCantidadProducto(String email, Long productoId, int cantidad) {
+        Carrito carrito = obtenerCarrito(email);
+        carrito.actualizarCantidad(productoId, cantidad);
+        return repositorioCarrito.save(carrito);
+    }
+
+    @Override
+    public Carrito eliminarProducto(String email, Long productoId) {
+        Carrito carrito = obtenerCarrito(email);
+        carrito.eliminarProductoPorId(productoId);
+        return repositorioCarrito.save(carrito);
+    }
+
+    @Override
     public Carrito vaciarCarrito(String email) {
         Carrito carrito = obtenerCarrito(email);
         carrito.vaciarCarrito();
