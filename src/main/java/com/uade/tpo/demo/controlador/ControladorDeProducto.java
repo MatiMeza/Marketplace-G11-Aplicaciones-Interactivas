@@ -54,32 +54,11 @@ public class ControladorDeProducto {
             return ResponseEntity.badRequest().body("Stock invalido");
         }
 
-        Optional<Producto> productoOpt = servicioProducto.getProductoById(id);
-        if (productoOpt.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        Optional<Producto> actualizado = servicioProducto.actualizarStock(id, nuevoStock);
+        if (actualizado.isPresent()) {
+            return ResponseEntity.ok(actualizado.get());
         }
-
-        Producto producto = productoOpt.get();
-
-        SolicitudDeProducto req = new SolicitudDeProducto();
-        req.setNombre(producto.getNombre());
-        req.setDescripcion(producto.getDescripcion());
-        req.setPrecio(producto.getPrecio());
-        req.setStock(nuevoStock);
-        req.setTipo(producto.getTipo());
-        req.setIdCategoria(producto.getCategoria() != null ? producto.getCategoria().getId() : null);
-        req.setIdVendedor(producto.getVendedor() != null ? producto.getVendedor().getId() : null);
-        req.setSubcategoria(producto.getSubcategoria());
-
-        try {
-            Optional<Producto> actualizado = servicioProducto.updateProducto(id, req);
-            if (actualizado.isPresent()) {
-                return ResponseEntity.ok(actualizado.get());
-            }
-            return ResponseEntity.notFound().build();
-        } catch (ExcepcionesDuplicadasProducto e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")

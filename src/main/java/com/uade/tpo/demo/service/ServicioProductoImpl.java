@@ -92,6 +92,19 @@ public class ServicioProductoImpl implements ServicioProducto {
     }
 
     @Override
+    public Optional<Producto> actualizarStock(Long id, int nuevoStock) {
+        Optional<Producto> productoOptional = repositorioProducto.findById(id);
+
+        if (productoOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Producto producto = productoOptional.get();
+        producto.setStock(nuevoStock);
+        return Optional.of(repositorioProducto.save(producto));
+    }
+
+    @Override
     public boolean deleteProducto(Long id) {
         if (!repositorioProducto.existsById(id)) {
             return false;

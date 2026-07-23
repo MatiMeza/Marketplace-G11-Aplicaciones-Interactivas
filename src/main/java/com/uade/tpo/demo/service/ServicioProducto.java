@@ -12,5 +12,6 @@ public interface ServicioProducto {
     Optional<Producto> getProductoById(Long id);
     Producto createProducto(SolicitudDeProducto solicitudDeProducto) throws ExcepcionesDuplicadasProducto;
     Optional<Producto> updateProducto(Long id, SolicitudDeProducto solicitudDeProducto) throws ExcepcionesDuplicadasProducto;
+    Optional<Producto> actualizarStock(Long id, int nuevoStock);
     boolean deleteProducto(Long id);
 }
