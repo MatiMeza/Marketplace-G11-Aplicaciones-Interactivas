@@ -38,6 +38,7 @@ public class ConfiguracionSeguridad {
                 .authenticationProvider(proveedorAutenticacion())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/error").permitAll()
 
                         // Productos
                         .requestMatchers(HttpMethod.PUT, "/productos/*/stock").authenticated()
