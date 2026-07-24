@@ -63,8 +63,6 @@ public class ControladorDeCarrito {
         return ResponseEntity.ok("Producto agregado al carrito correctamente");
     }
 
-    // Fija la cantidad exacta de un producto en el carrito (igual que el
-    // patron usado en /productos/{id}/stock: se manda el valor final, no un delta).
     @PutMapping("/item/{productoId}")
     public ResponseEntity<Object> actualizarCantidad(
             Authentication authentication,
@@ -94,7 +92,6 @@ public class ControladorDeCarrito {
         return ResponseEntity.ok(servicioCarrito.vaciarCarrito(email));
     }
 
-    // NUEVO: confirmar compra — descuenta stock y vacía carrito
     @PostMapping("/confirmar")
     public ResponseEntity<String> confirmarCompra(Authentication authentication) {
         String email = authentication.getName();

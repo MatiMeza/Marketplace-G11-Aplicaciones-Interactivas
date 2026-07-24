@@ -18,7 +18,6 @@ public class JwtUtil {
     @Autowired
     private ServicioDetallesUsuario servicioDetallesUsuario;
 
-    // Genera token incluyendo los roles del usuario
     public String generarToken(String email) {
         UserDetails userDetails = servicioDetallesUsuario.loadUserByUsername(email);
 

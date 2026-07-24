@@ -19,7 +19,6 @@ public class Caracteristica {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String texto;
 
-    // @JsonIgnore corta el ciclo con Producto, igual que en Imagen.java
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_producto", nullable = false)

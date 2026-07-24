@@ -50,13 +50,10 @@ public class ControladorDePedidos {
     }
 
     @PostMapping
-    @Transactional // Fundamental: revierte cambios en la BD (ej. stock) si ocurre una excepción
+    @Transactional
     public ResponseEntity<?> crearPedido(@RequestBody SolicitudPedido solicitud, 
                                          Authentication authentication) {
-        
-        // 1. Validación de usuario. 
-        // Nota objetiva: Tu entidad Pedido.java tiene @JoinColumn(nullable = false) para id_usuario.
-        // Por ende, la base de datos rechazará compras de usuarios no autenticados (invitados).
+
         if (authentication == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Debe estar autenticado para realizar una compra.");
         }
@@ -79,7 +76,6 @@ public class ControladorDePedidos {
         double subtotal = 0.0;
         List<DetallePedido> detalles = new ArrayList<>();
 
-        // 2. Procesamiento, validación de stock y cálculo de precios usando datos del servidor
         for (SolicitudPedido.ItemPedido item : solicitud.getProductos()) {
             Producto producto = repositorioProducto.findById(item.getIdProducto())
                     .orElseThrow(() -> new RuntimeException("Producto no encontrado: " + item.getIdProducto()));
@@ -88,7 +84,6 @@ public class ControladorDePedidos {
                 return ResponseEntity.badRequest().body("Stock insuficiente para el producto: " + producto.getNombre());
             }
 
-            // Descuento de stock atómico
             producto.setStock(producto.getStock() - item.getCantidad());
             repositorioProducto.save(producto);
 
@@ -98,12 +93,12 @@ public class ControladorDePedidos {
             detalle.setPedido(pedido);
             detalle.setIdProducto(producto.getId());
             detalle.setNombreProducto(producto.getNombre());
-            detalle.setPrecioUnitario(producto.getPrecio()); // El precio se extrae de la BD, no del request
+            detalle.setPrecioUnitario(producto.getPrecio());
             detalle.setCantidad(item.getCantidad());
             detalles.add(detalle);
         }
 
-        // 3. Aplicación de la lógica de descuentos
+
         double totalFinal = subtotal;
         if (solicitud.getCuponAplicado() != null && !solicitud.getCuponAplicado().trim().isEmpty()) {
             Optional<Cupon> cuponOpt = repositorioCupon.findByCodigo(solicitud.getCuponAplicado().toUpperCase());

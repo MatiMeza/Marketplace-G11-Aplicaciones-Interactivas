@@ -41,8 +41,6 @@ public class Carrito {
         detalles.add(detalle);
     }
 
-    // Fija la cantidad exacta de un producto ya existente en el carrito
-    // (a diferencia de agregarProducto, que suma sobre la cantidad actual).
     public void actualizarCantidad(Long productoId, int cantidad) {
         if (cantidad <= 0) {
             detalles.removeIf(detalle -> detalle.getProducto().getId().equals(productoId));

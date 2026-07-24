@@ -13,5 +13,5 @@ public class Rol {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String nombre; //Ejemplo: "ROLE_ADMIN", "ROLE_USER"
+    private String nombre;
 }

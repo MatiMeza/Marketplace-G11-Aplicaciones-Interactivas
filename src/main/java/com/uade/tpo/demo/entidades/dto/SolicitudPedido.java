@@ -5,7 +5,6 @@ import java.util.List;
 
 @Data
 public class SolicitudPedido {
-    // Se elimina el atributo 'total'
     private String direccionEnvio;
     private String emailContacto;
     private String cuponAplicado;
@@ -15,6 +14,5 @@ public class SolicitudPedido {
     public static class ItemPedido {
         private Long idProducto;
         private int cantidad;
-        // Se eliminan precioUnitario y nombreProducto. Se obtienen de la BD.
     }
 }

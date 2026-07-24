@@ -80,7 +80,6 @@ public class ServicioProductoImpl implements ServicioProducto {
         productoExistente.setTipo(req.getTipo());
         productoExistente.setSubcategoria(req.getSubcategoria());
 
-        // Solo actualiza categoria y vendedor si vienen en el request
         if (req.getIdCategoria() != null) {
             repositorioCategoria.findById(req.getIdCategoria()).ifPresent(productoExistente::setCategoria);
         }

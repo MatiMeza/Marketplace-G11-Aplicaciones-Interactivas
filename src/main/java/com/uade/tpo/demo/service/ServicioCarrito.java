@@ -8,5 +8,5 @@ public interface ServicioCarrito {
     Carrito actualizarCantidadProducto(String email, Long productoId, int cantidad);
     Carrito eliminarProducto(String email, Long productoId);
     Carrito vaciarCarrito(String email);
-    void confirmarCompra(String email);  // NUEVO
+    void confirmarCompra(String email);
 }

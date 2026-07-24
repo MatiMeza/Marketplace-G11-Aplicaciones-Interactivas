@@ -21,13 +21,11 @@ public class ControladorDeUsuarios {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
 
-    // GET /usuarios — todos (solo ADMIN)
     @GetMapping
     public ResponseEntity<List<Usuario>> getUsuarios() {
         return ResponseEntity.ok(repositorioUsuario.findAll());
     }
 
-    // GET /usuarios/perfil — perfil del usuario logueado
     @GetMapping("/perfil")
     public ResponseEntity<Object> getPerfil(Authentication authentication) {
         String email = authentication.getName();
@@ -36,7 +34,6 @@ public class ControladorDeUsuarios {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // GET /usuarios/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUsuarioById(@PathVariable Long id) {
         return repositorioUsuario.findById(id)
@@ -44,7 +41,6 @@ public class ControladorDeUsuarios {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // PUT /usuarios/perfil — actualizar datos del usuario logueado
     @PutMapping("/perfil")
     public ResponseEntity<Object> actualizarPerfil(Authentication authentication,
                                                    @RequestBody Map<String, String> body) {
@@ -58,7 +54,6 @@ public class ControladorDeUsuarios {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // DELETE /usuarios/{id} — solo ADMIN
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
         if (repositorioUsuario.existsById(id)) {

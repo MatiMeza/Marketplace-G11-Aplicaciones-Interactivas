@@ -45,7 +45,6 @@ public class ControladorDeProducto {
         return ResponseEntity.notFound().build();
     }
 
-    // Endpoint especifico para stock — va ANTES del PUT general
     @PutMapping("/{id}/stock")
     public ResponseEntity<Object> actualizarStock(@PathVariable Long id,
                                                   @RequestBody Map<String, Integer> body) {

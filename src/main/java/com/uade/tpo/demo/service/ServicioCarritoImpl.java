@@ -64,7 +64,6 @@ public class ServicioCarritoImpl implements ServicioCarrito {
         return repositorioCarrito.save(carrito);
     }
 
-    // NUEVO: descuenta stock y vacía carrito en una sola transacción
     @Override
     @Transactional
     public void confirmarCompra(String email) {
